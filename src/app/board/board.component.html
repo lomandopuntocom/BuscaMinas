@@ -1,0 +1,36 @@
+<div *ngIf="boardActive">
+  <table class="board">
+      <tr class="row" *ngFor="let row of board; let rowIndex = index">
+        <td class="cell" *ngFor="let cell of row; let colIndex = index" (click)="cellClicked(rowIndex, colIndex)" (contextmenu)="flagCell(rowIndex, colIndex); $event.preventDefault()">
+          <span *ngIf="cell.state === 'closed'">{{ cell.is_mine ? '💣' : cell.mines_around }}</span>
+          <span *ngIf="cell.state === 'open' && cell.is_mine" class="mine">💣</span>
+          <span *ngIf="cell.state === 'flag'">🚩</span>
+        </td>
+      </tr>
+  </table>
+</div>
+
+<form #boardForm="ngForm" (ngSubmit)="createBoard(boardForm.value.rows, boardForm.value.columns)">
+    <div class="form-group">
+      <label for="rows">Filas:</label>
+      <input type="number" id="rows" name="rows" class="form-control" ngModel required>
+    </div>
+    <div class="form-group">
+      <label for="columns">Columnas:</label>
+      <input type="number" id="columns" name="columns" class="form-control" ngModel required>
+    </div>
+    <button type="submit" class="btn btn-primary">Crear Tablero</button>
+  </form>
+
+  <!--<table> <table class="board">
+    <tr class="row" *ngFor="let row of board; let rowIndex = index">
+      <td class="cell" *ngFor="let cell of row; let colIndex = index" 
+          (click)="cellClicked(rowIndex, colIndex)" (contextmenu)="flagCell(rowIndex, colIndex); $event.preventDefault()">
+        <div *ngIf="cell.state !== 'closed'">
+          {{cell.mines_around}}
+        </div>
+      </td>
+    </tr>
+  </table>
+</div>
+  -->
